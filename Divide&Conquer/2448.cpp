@@ -17,8 +17,10 @@ void initMatrix(int N)
 
 void buildStars(int x, int y, int N)
 {
+	int newN = N * 5 / 3;
+
 	if (N == 3) {
-		int mid = (x + y) / 2;
+		int mid = newN / 2 + 1;
 		matrix[x][y + mid] = '*';
 		matrix[x + 1][y + mid - 1] = '*';
 		matrix[x + 1][y + mid + 1] = '*';
@@ -33,7 +35,7 @@ void printStars(int N)
 {
 	int newN = N * 5 / 3;
 	for (int i = 0; i < newN; i++) {
-		for (int j = 0; j < newN * 5 / 3; i++) {
+		for (int j = 0; j < newN; j++) {
 			cout << matrix[i][j];
 		}
 		cout << "\n";
