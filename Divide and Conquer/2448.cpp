@@ -6,36 +6,42 @@ char matrix[3072][3072];
 
 void initMatrix(int N)
 {
-	int newN = N * 5 / 3;
-	for (int i = 0; i < newN; i++) {
-		for (int j = 0; j < newN; j++) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < 2 * N - 1; j++) {
 			matrix[i][j] = ' ';
 		}
 	}	
 	return;
 }
 
-void buildStars(int x, int y, int N)
+void buildStars(int x, int y)
 {
-	int newN = N * 5 / 3;
+	matrix[x][y] = '*';
 
-	if (N == 3) {
-		int mid = newN / 2 + 1;
-		matrix[x][y + mid] = '*';
-		matrix[x + 1][y + mid - 1] = '*';
-		matrix[x + 1][y + mid + 1] = '*';
-		for (int i = 0; i < 5; i++) {
-			matrix[x + 2][y + mid - (i - 2)] = '*';
-		}
+	matrix[x + 1][y - 1] = '*';
+	matrix[x + 1][y + 1] = '*';
 
+	for (int i = 0; i < 5; i++) {
+		matrix[x + 2][y + i - 2] = '*';
 	}
+}
+
+void buildMatrix(int x, int y, int N)
+{
+	if (N == 3) {
+		buildStars(x, y);
+		return;
+	}
+
+	buildMatrix(x, y, N / 2);
+	buildMatrix(x + N / 2, y - N / 2, N / 2);
+	buildMatrix(x + N / 2, y + N / 2, N / 2);
 }
 
 void printStars(int N)
 {
-	int newN = N * 5 / 3;
-	for (int i = 0; i < newN; i++) {
-		for (int j = 0; j < newN; j++) {
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < 2 * N - 1; j++) {
 			cout << matrix[i][j];
 		}
 		cout << "\n";
@@ -48,7 +54,7 @@ int main(void)
 	cin >> N;
 
 	initMatrix(N);
-	buildStars(0, 0, N);
+	buildMatrix(0, N - 1, N);
 	printStars(N);
 	return 0;
 }
